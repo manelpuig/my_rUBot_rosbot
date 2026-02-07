@@ -1,0 +1,24 @@
+{
+  "name": "ROSbot XL Jazzy (Compose)",
+  "dockerComposeFile": [
+    "../docker/docker-compose.yaml"
+  ],
+  "service": "rosbotxl_jazzy_sim",
+  "workspaceFolder": "/ws",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "root",
+  "overrideCommand": true,
+  "postCreateCommand": "bash -lc 'source /opt/ros/jazzy/setup.bash && cd /ws && if [ -d src ] && [ \"$(ls -A src 2>/dev/null)\" != \"\" ]; then colcon build --symlink-install; else echo \"No /ws/src (or empty). Skipping colcon build.\"; fi'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-iot.vscode-ros",
+        "redhat.vscode-yaml",
+        "twxs.cmake"
+      ]
+    }
+  }
+}

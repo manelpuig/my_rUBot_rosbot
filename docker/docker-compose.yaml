@@ -1,0 +1,25 @@
+services:
+  rosbotxl_jazzy_sim:
+    build: .
+    image: my_rosbotxl_jazzy_sim:latest
+    container_name: rosbotxl_jazzy_sim
+
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - XDG_RUNTIME_DIR=/tmp/runtime-root
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - ROS_DOMAIN_ID=0
+      - HUSARION_ROS_BUILD_TYPE=simulation
+      - ROBOT_MODEL_NAME=rosbot_xl
+
+    volumes:
+      - ../:/ws:rw
+      - ./entrypoint.sh:/entrypoint.sh:ro
+
+      # Linux only (descomenta si estàs en Linux)
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+
+    entrypoint: /entrypoint.sh
+    privileged: true
+    command: ["bash", "-lc", "sleep infinity"]
