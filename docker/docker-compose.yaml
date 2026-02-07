@@ -14,7 +14,7 @@ services:
       - ROBOT_MODEL_NAME=rosbot_xl
 
     volumes:
-      - ../:/ws:rw
+      #- ../:/ws:rw
       - ./entrypoint.sh:/entrypoint.sh:ro
 
       # Linux only (descomenta si estàs en Linux)
