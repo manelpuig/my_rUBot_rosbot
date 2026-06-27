@@ -41,9 +41,48 @@ http://192.168.1.5:8080/ui
 
 ## 3. Repository
 
-Original rosbot_ros is container at /rosbot_ros
+To work with ROSbot, you can use:
+- Local PC Ubuntu24
+- Local PC Ubuntu22 with Docker configuration
 
-You work on /root
+### 3.1 Local PC Ubuntu24
+
+### 3.1 Local PC Ubuntu22 with Docker configuration
+
+A proper `manelpuig/ros2-jazzy-ub-rosbot:latest` Docker image is created you can work inside the Docker image:
+- 
+
+From the official repository you can test first in simulation:
+- Launch the `basic` configuration
+````bash
+ros2 launch rosbot_gazebo simulation.yaml \
+  robot_model:=rosbot_xl \
+  use_sim:=True \
+  configuration:=basic \
+  arm_activate:=False \
+  rviz:=True
+````
+- The `configuration` parameter can be:
+````bash
+basic
+telepresence
+autonomy
+manipulation
+manipulation_pro
+custom
+````
+- Launch the `manipulation pro`:
+````bash
+ros2 launch rosbot_gazebo simulation.yaml \
+  robot_model:=rosbot_xl \
+  use_sim:=True \
+  configuration:=manipulation_pro \
+  arm_activate:=True \
+  rviz:=True
+````
+![](./Images/ROSbot_xl_pro.png)
+
+
 
 you clone your `my_rUBot_rosbot` in /root/
 
