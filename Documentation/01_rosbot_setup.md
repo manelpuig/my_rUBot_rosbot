@@ -82,7 +82,7 @@ ros2 launch rosbot_gazebo simulation.yaml \
 ````
 ![](./Images/ROSbot_xl_pro.png)
 
-
+![](./Images/ROSbot_xl_pro_rviz.png)
 
 you clone your `my_rUBot_rosbot` in /root/
 
