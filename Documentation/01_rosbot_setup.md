@@ -38,6 +38,10 @@ chmod +x install_rosbot_native.sh
 ./install_rosbot_native.sh
 ```
 
+The installer can be run again after an interrupted installation. It keeps
+existing repositories and build products, verifies that `rosbot_ros` uses the
+`jazzy` branch, and never removes workspace content automatically.
+
 The script:
 
 1. Installs ROS 2 Jazzy and its development tools.
@@ -201,14 +205,59 @@ ros2 pkg executables my_rosbot_control
 The control package should provide:
 
 ```text
-my_rosbot_control teleop_simple
+my_rosbot_control drive_test
 ```
 
-The custom bringup launch files are being updated to use the current official
-`rosbot_gazebo/launch/simulation.yaml` interface. Until they are validated,
-use the official simulation command from section 2.2 as the reference test.
+The custom bringup launch files use the current official
+`rosbot_gazebo/launch/simulation.yaml` interface. Validate the official command
+from section 2.2 first, then test the project wrappers:
 
-### 2.5. Development checkpoints
+```bash
+ros2 launch my_rosbot_bringup bringup_sw.launch.py
+ros2 launch my_rosbot_bringup bringup_camera_sw.launch.py
+```
+
+The second command selects the official `autonomy` component configuration.
+
+### 2.5. Test ROSbot movement
+
+`drive_test` publishes a `TwistStamped` command on the relative `cmd_vel`
+topic for a limited time and then stops the robot. Its main parameters are:
+
+| Parameter | Twist field | Unit | Default |
+| --- | --- | --- | --- |
+| `vx` | `linear.x` | m/s | `0.0` |
+| `vy` | `linear.y` | m/s | `0.0` |
+| `wz` | `angular.z` | rad/s | `0.0` |
+| `duration` | Test duration | s | `5.0` |
+| `publish_rate` | Publication frequency | Hz | `10.0` |
+
+Example: move forward for three seconds:
+
+```bash
+ros2 run my_rosbot_control drive_test --ros-args \
+  -p vx:=0.2 -p vy:=0.0 -p wz:=0.0 -p duration:=3.0
+```
+
+Example: move laterally to the left:
+
+```bash
+ros2 run my_rosbot_control drive_test --ros-args \
+  -p vx:=0.0 -p vy:=0.2 -p wz:=0.0 -p duration:=3.0
+```
+
+Example: rotate counterclockwise:
+
+```bash
+ros2 run my_rosbot_control drive_test --ros-args \
+  -p vx:=0.0 -p vy:=0.0 -p wz:=0.5 -p duration:=3.0
+```
+
+The node sends several zero-velocity commands before exiting. For a physical
+robot, first raise the wheels or use a clear test area and keep an emergency
+stop method available.
+
+### 2.6. Development checkpoints
 
 At each stage, record this information before changing source files:
 

@@ -14,12 +14,12 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Manel Puig',
-    maintainer_email='manel@ub.edu',
-    description='Minimal ROSbot XL control package',
+    maintainer_email='manel.puig@ub.edu',
+    description='Parameterized planar velocity tests for the ROSbot XL',
     license='MIT',
     entry_points={
         'console_scripts': [
-            'teleop_simple = my_rosbot_control.teleop_simple:main',
+            'drive_test = my_rosbot_control.drive_test:main',
         ],
     },
 )

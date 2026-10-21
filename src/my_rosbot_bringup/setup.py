@@ -1,29 +1,24 @@
-from setuptools import setup
-import os
 from glob import glob
+import os
 
-package_name = 'my_rosbot_bringup'
+from setuptools import setup
+
+package_name = "my_rosbot_bringup"
 
 setup(
     name=package_name,
-    version='0.0.0',
+    version="0.1.0",
     packages=[package_name],
     data_files=[
-        ('share/ament_index/resource_index/packages', ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
-
-        (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
-        (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
-        (os.path.join('share', package_name, 'rviz'),   glob('rviz/*.rviz')),
-        (os.path.join('share', package_name, 'urdf'), glob('urdf/*')),
-        # If you add more subfolders later, add similar lines.
+        ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
+        ("share/" + package_name, ["package.xml"]),
+        (os.path.join("share", package_name, "launch"), glob("launch/*.py")),
     ],
-    install_requires=['setuptools'],
+    install_requires=["setuptools"],
     zip_safe=True,
-    maintainer='root',
-    maintainer_email='root@todo.todo',
-    description='Bringup for ROSbot in Gazebo with extra ros_gz bridges',
-    license='Apache-2.0',
-    tests_require=['pytest'],
-    entry_points={'console_scripts': []},
+    maintainer="Manel Puig",
+    maintainer_email="manel.puig@ub.edu",
+    description="Project launch wrappers for the official ROSbot XL stack.",
+    license="MIT",
+    entry_points={"console_scripts": []},
 )

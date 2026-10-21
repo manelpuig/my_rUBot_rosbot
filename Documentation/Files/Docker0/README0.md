@@ -56,8 +56,11 @@ source /opt/ros/jazzy/setup.bash
 cd /ws
 source install/setup.bash 2>/dev/null || true
 
-ros2 launch rosbot_gazebo simulation.launch.py \
+ros2 launch rosbot_gazebo simulation.yaml \
   robot_model:=rosbot_xl \
+  use_sim:=True \
+  configuration:=basic \
+  arm_activate:=False \
   rviz:=True \
   gz_headless_mode:=False
 
@@ -90,4 +93,10 @@ if [ -f install/setup.bash ]; then
   source install/setup.bash
 fi
 
-ros2 launch rosbot_gazebo simulation.launch.py robot_model:=rosbot_xl rviz:=True gz_headless_mode:=False
+ros2 launch rosbot_gazebo simulation.yaml \
+  robot_model:=rosbot_xl \
+  use_sim:=True \
+  configuration:=basic \
+  arm_activate:=False \
+  rviz:=True \
+  gz_headless_mode:=False

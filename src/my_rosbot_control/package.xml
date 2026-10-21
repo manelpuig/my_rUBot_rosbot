@@ -2,12 +2,10 @@
 <package format="3">
   <name>my_rosbot_control</name>
   <version>0.0.1</version>
-  <description>Minimal ROSbot XL control package</description>
+  <description>Parameterized planar velocity tests for the ROSbot XL</description>
 
-  <maintainer email="manel@ub.edu">Manel Puig</maintainer>
+  <maintainer email="manel.puig@ub.edu">Manel Puig</maintainer>
   <license>MIT</license>
-
-  <buildtool_depend>ament_python</buildtool_depend>
 
   <exec_depend>rclpy</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
