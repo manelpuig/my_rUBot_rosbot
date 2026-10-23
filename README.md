@@ -8,8 +8,8 @@ upstream [Husarion ROSbot stack](https://github.com/husarion/rosbot_ros).
 
 | Package | Purpose |
 | --- | --- |
-| `my_rosbot_bringup` | Small launch wrappers around the official simulation |
-| `my_rosbot_control` | Bounded and parameterized motion test |
+| `my_rosbot_bringup` | Standard Husarion and common-interface launch wrappers |
+| `my_rosbot_control` | Motion test and ROSbot/common topic adapter |
 
 ## Installation
 
@@ -43,6 +43,26 @@ ros2 launch my_rosbot_bringup bringup_camera_sw.launch.py
 The camera launch no longer injects a second robot description or duplicates
 Gazebo bridges. Sensors are selected through the official Husarion component
 configuration.
+
+The physical robot currently has no camera; the optional future camera is a
+Gemini 2. For the normalized teaching interface, use:
+
+```bash
+ros2 launch my_rosbot_bringup bringup_custom_sw.launch.py
+```
+
+For hardware, validate the official stack first and then choose one wrapper:
+
+```bash
+# Official Husarion API
+ros2 launch my_rosbot_bringup bringup_hw.launch.py
+
+# Common API: /cmd_vel (Twist), /odom, /wheel/odom, /imu and /scan
+ros2 launch my_rosbot_bringup bringup_custom_hw.launch.py
+```
+
+Do not run the standard and custom hardware bringups simultaneously. See the
+setup guide for the complete topic mapping and verification procedure.
 
 ## Motion test
 

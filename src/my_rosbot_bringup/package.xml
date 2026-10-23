@@ -9,6 +9,9 @@
 
   <exec_depend>ament_index_python</exec_depend>
   <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>my_rosbot_control</exec_depend>
+  <exec_depend>rosbot_bringup</exec_depend>
   <exec_depend>rosbot_gazebo</exec_depend>
 
   <test_depend>ament_flake8</test_depend>

@@ -4,7 +4,8 @@ set -euo pipefail
 readonly ROS_DISTRO_NAME="jazzy"
 readonly WORKSPACE="${HOME}/rosbot_ws"
 readonly ROSBOT_REPOSITORY="https://github.com/husarion/rosbot_ros.git"
-readonly ROSBOT_BRANCH="jazzy"
+readonly ROSBOT_VERSION="1.3.0"
+readonly ROSBOT_COMMIT="72f60ed7b3154bf2988526a095cdc7c92786ef71"
 readonly BASHRC_START="# >>> ROSbot native workspace >>>"
 
 echo "=== Installing ROS 2 Jazzy and the native ROSbot workspace ==="
@@ -79,20 +80,28 @@ rosdep update --rosdistro "${ROS_DISTRO_NAME}"
 mkdir -p "${WORKSPACE}/src"
 
 if [[ -d "${WORKSPACE}/src/rosbot_ros/.git" ]]; then
-  existing_branch="$(git -C "${WORKSPACE}/src/rosbot_ros" branch --show-current)"
-  if [[ "${existing_branch}" != "${ROSBOT_BRANCH}" ]]; then
-    echo "ERROR: Existing rosbot_ros checkout uses branch '${existing_branch}'." >&2
-    echo "Expected branch '${ROSBOT_BRANCH}'. Switch it manually and retry." >&2
+  existing_commit="$(git -C "${WORKSPACE}/src/rosbot_ros" rev-parse HEAD)"
+  if [[ "${existing_commit}" != "${ROSBOT_COMMIT}" ]]; then
+    echo "ERROR: Existing rosbot_ros checkout is at ${existing_commit}." >&2
+    echo "Expected tag ${ROSBOT_VERSION} (${ROSBOT_COMMIT})." >&2
+    echo "Move it aside or check out the expected tag, then retry." >&2
     exit 1
   fi
-  echo "Existing rosbot_ros Jazzy checkout found; keeping it unchanged."
+  echo "Existing rosbot_ros ${ROSBOT_VERSION} checkout found; keeping it unchanged."
 elif [[ -e "${WORKSPACE}/src/rosbot_ros" ]]; then
   echo "ERROR: ${WORKSPACE}/src/rosbot_ros exists but is not a Git checkout." >&2
   echo "Move it aside and run the installer again." >&2
   exit 1
 else
-  git clone --branch "${ROSBOT_BRANCH}" \
+  git clone --branch "${ROSBOT_VERSION}" --depth 1 \
     "${ROSBOT_REPOSITORY}" "${WORKSPACE}/src/rosbot_ros"
+fi
+
+resolved_commit="$(git -C "${WORKSPACE}/src/rosbot_ros" rev-parse HEAD)"
+if [[ "${resolved_commit}" != "${ROSBOT_COMMIT}" ]]; then
+  echo "ERROR: Tag ${ROSBOT_VERSION} resolved to unexpected commit ${resolved_commit}." >&2
+  echo "Expected ${ROSBOT_COMMIT}; refusing to continue." >&2
+  exit 1
 fi
 
 cd "${WORKSPACE}"
@@ -147,6 +156,7 @@ set -u
 echo
 echo "=== Installation completed ==="
 echo "ROS_DISTRO=${ROS_DISTRO:-unknown}"
+echo "rosbot_ros=${ROSBOT_VERSION} (${ROSBOT_COMMIT})"
 echo "rosbot_gazebo share directory:"
 ros2 pkg prefix --share rosbot_gazebo
 

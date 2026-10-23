@@ -20,6 +20,7 @@ setup(
     entry_points={
         'console_scripts': [
             'drive_test = my_rosbot_control.drive_test:main',
+            'interface_adapter = my_rosbot_control.interface_adapter:main',
         ],
     },
 )
